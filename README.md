@@ -2,7 +2,7 @@
 
 Based on article from Yaser Al-Najjar - Implementation of the demo task he was provided
 
-(https://dev.to/yaser/are-you-a-mediocre-developer-me-too-34ed)[Link to Al-Najjar's Post]
+(Link to Al-Najjar's Post)[https://dev.to/yaser/are-you-a-mediocre-developer-me-too-34ed]
 
 
 I changed some of the requirements. Instead of Python, I will use c#/Dotnet. I will also use MySql instead of PostgresSQL.
