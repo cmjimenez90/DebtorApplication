@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebtorWebApp", "DebtorWebApp\DebtorWebApp.csproj", "{6CD00750-C60D-4984-A316-C3E37FCBFDCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebtorWebApp", "src\DebtorWebApp\DebtorWebApp.csproj", "{6CD00750-C60D-4984-A316-C3E37FCBFDCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
