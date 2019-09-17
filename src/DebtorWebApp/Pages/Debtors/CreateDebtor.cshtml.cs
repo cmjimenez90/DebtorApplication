@@ -33,7 +33,7 @@ namespace DebtorWebApp.Pages.Debtors
             context.Debtors.Add(Debtor);
             await context.SaveChangesAsync();
 
-            return RedirectToPage("./index");
+            return RedirectToPage("./ViewDebtor", new { id = Debtor.DebtorID });
         }
     }
 }

@@ -1,0 +1,40 @@
+﻿@page "{id:int}"
+@model DebtorWebApp.Pages.Debtors.ViewDebtorModel
+@{
+    ViewData["Title"] = "ViewDebtor";
+}
+
+<h1>Debtor</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <h2>@(Model.Debtor.FirstName + " " + Model.Debtor.LastName)</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span>EMAIL: </span>@Model.Debtor.Email</li>
+                    <li class="list-group-item"><span>IBAN: </span>@Model.Debtor.IBAN</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm">
+            <h2>Invoices</h2>
+            <div class="row">
+                <div class="col-sm">Amount Due</div>
+                <div class="col-sm">Due Date</div>
+                <div class="col-sm">Status</div>
+                <div class="col-sm"><a class="btn btn-primary">New</a></div>
+            </div>
+            @foreach (var invoice in Model.Debtor.Invoices)
+            {
+                <div class="row">
+                    <div class="col-sm">@invoice.Amount</div>
+                    <div class="col-sm">@invoice.DueDate</div>
+                    <div class="col-sm">@invoice.Status</div>
+                    <div class="col-sm"><a class="btn btn-primary">New</a></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
