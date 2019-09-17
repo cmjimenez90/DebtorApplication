@@ -13,7 +13,8 @@ namespace DebtorWebApp.Models
         public DateTime DueDate { get; set; }
         [Required]
         public InvoiceStatus Status {get; set;}
-        public string DebtorID { get; set; }
+        [Required]
+        public int DebtorID { get; set; }
     }
 
     public enum InvoiceStatus
