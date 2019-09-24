@@ -1,39 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
 using DebtorWebApp.Data;
 using DebtorWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
 
 namespace DebtorWebApp.Pages.Debtors
 {
-    public class NewDebtorModel : PageModel
-    {
-        private readonly ApplicationDbContext context;
+    [Authorize(Roles = "Administrator")]
+    public class NewDebtorModel : BaseDebtorPageModel
+    {   
+        public Debtor Debtor { get; set; }
 
-        [BindProperty]
-        public Debtor Debtor {get; set;}
-        
-        public NewDebtorModel(ApplicationDbContext context) => this.context = context;
-
-        public IActionResult OnGet()
+        public NewDebtorModel(ApplicationDbContext context,
+        IAuthorizationService authorizationService,
+        UserManager<IdentityUser> userManager)
+        : base(context, authorizationService, userManager)
         {
+        }
+
+        public  IActionResult OnGet()
+        {
+            
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync([Bind("FirstName,LastName,Email,IBAN")]Debtor debtor)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
+        
+            debtor.OwnerID = UserManager.GetUserId(User);
+            Context.Add(debtor);
+            await Context.SaveChangesAsync();
 
-            context.Debtors.Add(Debtor);
-            await context.SaveChangesAsync();
-
-            return RedirectToPage("./ViewDebtor", new { id = Debtor.DebtorID });
+            return RedirectToPage("./ViewDebtor", new { id = debtor.DebtorID });
         }
     }
 }

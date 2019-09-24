@@ -10,11 +10,18 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="card">
-                <h2>@(Model.Debtor.FirstName + " " + Model.Debtor.LastName)</h2>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span>EMAIL: </span>@Model.Debtor.Email</li>
-                    <li class="list-group-item"><span>IBAN: </span>@Model.Debtor.IBAN</li>
-                </ul>
+                <div class="card-header">
+                    <h2>@(Model.Debtor.LastName + ", " + Model.Debtor.FirstName)</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group-flush list-group">
+                        <li class="list-group-item">@Html.DisplayNameFor(model => model.Debtor.Email): @Html.DisplayFor(model => model.Debtor.Email)</li>
+                        <li class="list-group-item">@Html.DisplayNameFor(model => model.Debtor.IBAN): @Html.DisplayFor(model => model.Debtor.IBAN)</li>
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-page="EditDebtor" asp-route-id="@(Model.Debtor.DebtorID)" class="btn btn-primary">Edit</a>
+                </div>
             </div>
         </div>
         <div class="col-sm">
