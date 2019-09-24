@@ -19,6 +19,7 @@ namespace DebtorWebApp.Models
         public string Email { get; set; }
         [Iban]
         public string IBAN { get; set; }
-        public ICollection<Invoice> Invoices { get; set; }
+        public string OwnerID { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

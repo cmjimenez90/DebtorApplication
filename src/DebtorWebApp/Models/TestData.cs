@@ -16,22 +16,19 @@ namespace DebtorWebApp.Models
             {
                 if (context.Debtors.Any()) return;
                 context.Debtors.AddRange(
-                    new Debtor {
-                        Email = "testemail@gmail.com",
-                        FirstName = "Test",
-                        LastName = "1"
-                    },
                      new Debtor
                      {
                          Email = "csmiles@whoknows.com",
                          FirstName = "Carry",
-                         LastName = "Smiles"
+                         LastName = "Smiles",
+                         OwnerID = "75F4B8C7-DA1A-4C60-81F9-0B275FB27D8D"
                      },
                       new Debtor
                       {
                           Email = "branchs@boinks.com",
                           FirstName = "Samuel",
-                          LastName = "Branch"
+                          LastName = "Branch",
+                          OwnerID = "79E497F2-1E23-4294-A216-63624167D4FD"
                       }
                     );
                 context.SaveChanges();
