@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DebtorWebApp.Pages.Debtors
 {
-    public class EditDebtorModel : BaseDebtorPageModel
+    public class EditDebtorModel : BasePageModel
     {
         public Debtor Debtor { get; set; }
 

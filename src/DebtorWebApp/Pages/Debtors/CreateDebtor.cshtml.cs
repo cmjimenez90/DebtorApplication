@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DebtorWebApp.Pages.Debtors
 {
     [Authorize(Roles = "Administrator")]
-    public class NewDebtorModel : BaseDebtorPageModel
+    public class NewDebtorModel : BasePageModel
     {   
         public Debtor Debtor { get; set; }
 
