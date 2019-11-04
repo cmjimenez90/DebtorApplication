@@ -1,4 +1,5 @@
-﻿using DebtorWebApp.AuthorizationPolicies.Requirements;
+﻿using DebtorWebApp.Areas.Identity.Roles;
+using DebtorWebApp.AuthorizationPolicies.Requirements;
 using DebtorWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +21,7 @@ namespace DebtorWebApp.AuthorizationPolicies
             string userID = _userManager.GetUserId(context.User);
             if (userID != null && resource != null)
             {
-                if (userID == resource.OwnerID)
+                if ((userID == resource.OwnerID) && context.User.IsInRole(ApplicationRoles.Roles[RolesTypes.Administrator]))
                 {
                     context.Succeed(requirement);
                 }
