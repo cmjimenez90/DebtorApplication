@@ -21,7 +21,7 @@ namespace DebtorWebApp.AuthorizationPolicies
             string userID = _userManager.GetUserId(context.User);
             if (userID != null && resource != null)
             {
-                if ((userID == resource.OwnerID) && context.User.IsInRole(ApplicationRoles.Roles[RolesTypes.Administrator]))
+                if ((userID == resource.OwnerID) && context.User.IsInRole(ApplicationRoles.Administrator.ToString()))
                 {
                     context.Succeed(requirement);
                 }
