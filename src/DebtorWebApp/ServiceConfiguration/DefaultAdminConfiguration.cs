@@ -17,7 +17,7 @@ namespace DebtorWebApp.ServiceConfiguration
             
             IdentityResult identityResult;
 
-            foreach (var role in ApplicationRoles.Roles.Values)
+            foreach(var role in Enum.GetNames(typeof(ApplicationRoles)))
             {
                 if(!(await roleManager.RoleExistsAsync(role))){
                     identityResult = await roleManager.CreateAsync(new IdentityRole(role));
@@ -38,7 +38,7 @@ namespace DebtorWebApp.ServiceConfiguration
                 IdentityResult createdUser = await userManager.CreateAsync(adminUser, password);
 
                 if (createdUser.Succeeded) {
-                    await userManager.AddToRoleAsync(adminUser, ApplicationRoles.Roles[RolesTypes.Administrator]);
+                    await userManager.AddToRoleAsync(adminUser, ApplicationRoles.Administrator.ToString());
                 }
             }
     
