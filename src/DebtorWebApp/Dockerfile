@@ -1,14 +1,17 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-nanoserver-1803 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+FROM microsoft/dotnet:2.2-sdk-nanoserver-1803 AS build
 WORKDIR /src
-COPY ["DebtorWebApp/DebtorWebApp.csproj", "DebtorWebApp/"]
-RUN dotnet restore "DebtorWebApp/DebtorWebApp.csproj"
+COPY ["src/DebtorWebApp/DebtorWebApp.csproj", "src/DebtorWebApp/"]
+RUN dotnet restore "src/DebtorWebApp/DebtorWebApp.csproj"
 COPY . .
-WORKDIR "/src/DebtorWebApp"
+WORKDIR "/src/src/DebtorWebApp"
 RUN dotnet build "DebtorWebApp.csproj" -c Release -o /app
 
 FROM build AS publish
