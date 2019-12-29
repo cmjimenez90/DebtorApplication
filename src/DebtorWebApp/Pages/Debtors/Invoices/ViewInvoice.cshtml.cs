@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using DebtorWebApp.Data;
 using DebtorWebApp.Models;
@@ -18,9 +16,9 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
         {
         }
 
-        public IActionResult OnGet(int invoiceID)
+        public IActionResult OnGet(int id)
         {
-           Invoice = Context.Invocies.FirstOrDefault(invoice => invoice.InvoiceId == invoiceID);
+           Invoice = Context.Invocies.FirstOrDefault(invoice => invoice.InvoiceId == id);
            if(Invoice == null)
             {
                 return NotFound();
@@ -28,6 +26,32 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
             Debtor owner = Context.Debtors.FirstOrDefault(debtor => debtor.DebtorID == Invoice.DebtorID);
             InvoiceOwnerName = (owner.LastName + ", " + owner.FirstName);
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostMarkInvoiceAsPaidAsync(int id)
+        {
+            Invoice = Context.Invocies.FirstOrDefault(invoice => invoice.InvoiceId == id);
+            if (Invoice == null)
+            {
+                return NotFound();
+            }
+            Invoice.Status = InvoiceStatus.Paid;
+            Context.Update(Invoice);
+            await Context.SaveChangesAsync();
+            return RedirectToPage("./ViewInvoice", new { id });
+        }
+
+        public async Task<IActionResult> OnPostMarkInvoiceAsOverdueAsync(int id)
+        {
+            Invoice = Context.Invocies.FirstOrDefault(invoice => invoice.InvoiceId == id);
+            if (Invoice == null)
+            {
+                return NotFound();
+            }
+            Invoice.Status = InvoiceStatus.Overdue;
+            Context.Update(Invoice);
+            await Context.SaveChangesAsync();
+            return RedirectToPage("./ViewInvoice", new { id });
         }
     }
 }
