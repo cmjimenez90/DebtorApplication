@@ -1,0 +1,33 @@
+﻿@page
+@using DebtorWebApp.Models
+@model DebtorWebApp.Pages.Debtors.Invoices.ViewInvoiceModel
+@{
+    ViewData["Title"] = "View Invoice";
+}
+@functions{
+    public string GetStatusBackgroundColor(InvoiceStatus status)
+    {
+        if (status == InvoiceStatus.Overdue)
+            return "bg-danger";
+        if (status == InvoiceStatus.Paid)
+            return "bg-success";
+        return "";
+    }
+}
+<h1>Invoice</h1>
+
+<div class="card">
+    <div class="card-header">
+        <span class="@GetStatusBackgroundColor(Model.Invoice.Status)">@Html.DisplayFor(model => model.Invoice.Status)</span>
+    </div>
+    <div class="card-body">
+        <h2>@Html.DisplayFor(model => model.InvoiceOwnerName)</h2>
+        <p>
+            <span>Due Date: </span>@Html.DisplayFor(model => model.Invoice.DueDate)
+            <span>Balance: </span> @Html.DisplayFor(model => model.Invoice.Amount)
+        </p>
+        <a class="btn btn-danger">MARK OVERDUE</a>
+        <a class="btn btn-primary">MARK PAID</a>
+    </div>
+</div>
+

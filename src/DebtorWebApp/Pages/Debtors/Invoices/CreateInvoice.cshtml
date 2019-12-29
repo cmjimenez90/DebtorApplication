@@ -1,0 +1,9 @@
+﻿@page
+@model DebtorWebApp.Pages.Debtors.Invoices.CreateInvoiceModel;
+@{
+    ViewData["Title"] = "Create Debtor";
+}
+
+<h1>New Invoice</h1>
+
+@await Html.PartialAsync("_InvoicePartial", Model.Invoice)

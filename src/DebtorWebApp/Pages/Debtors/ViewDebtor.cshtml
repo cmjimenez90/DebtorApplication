@@ -30,7 +30,7 @@
                 <div class="col-sm">Amount Due</div>
                 <div class="col-sm">Due Date</div>
                 <div class="col-sm">Status</div>
-                <div class="col-sm"><a class="btn btn-primary">New</a></div>
+                <div class="col-sm"><a asp-page="Invoices/CreateInvoice" asp-route-id="@(Model.Debtor.DebtorID)" class="btn btn-primary">New</a></div>
             </div>
             @foreach (var invoice in Model.Debtor.Invoices)
             {
@@ -38,7 +38,7 @@
                     <div class="col-sm">@invoice.Amount</div>
                     <div class="col-sm">@invoice.DueDate</div>
                     <div class="col-sm">@invoice.Status</div>
-                    <div class="col-sm"><a class="btn btn-primary">New</a></div>
+                    <div class="col-sm"><a class="btn btn-primary">View</a></div>
                 </div>
             }
         </div>
