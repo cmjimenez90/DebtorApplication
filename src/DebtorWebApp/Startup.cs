@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DebtorWebApp.Data;
@@ -15,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using DebtorWebApp.ServiceConfiguration;
+using DebtorWebApp.AuthorizationPolicies.Requirements;
+using DebtorWebApp.AuthorizationPolicies;
 
 namespace DebtorWebApp
 {
@@ -42,6 +42,7 @@ namespace DebtorWebApp
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthentication()
@@ -58,15 +59,22 @@ namespace DebtorWebApp
                 configuration.Filters.Add(new AuthorizeFilter(policy));
             })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DebtorEditPolicy", policy => policy.Requirements.Add(new SameDebtorOwnerRequirment()));
+            });
+
+            services.AddScoped<IAuthorizationHandler, DebtorAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                
             }
             else
             {
@@ -75,12 +83,13 @@ namespace DebtorWebApp
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            DefaultAdminConfiguration.Initialize(services, Configuration).Wait();
             app.UseMvc();
         }
     }

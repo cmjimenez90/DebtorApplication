@@ -1,0 +1,58 @@
+﻿@page
+@model DebtorWebApp.Pages.Debtors.IndexModel
+@{
+    ViewData["Title"] = "Debtors";
+}
+
+<h1>Debtors</h1>
+
+<table class="table">
+    <thead>     
+            <tr>
+                <th>
+                    <span>Name</span>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Debtors[0].Email)
+                </th>
+                <th>
+                    <span>Open</span>
+                </th>
+                <th>
+                    <span>Paid</span>
+                </th>
+                <th>
+                    <span>Overdue</span>
+                </th>
+                <th>
+                    <a class="btn btn-primary btn-sm" asp-page="CreateDebtor">New</a>
+                </th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var debtor in Model.Debtors)
+        {
+        <tr>
+            <td>
+                @(debtor.LastName + ", " + debtor.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => debtor.Email)
+            </td>
+            <td>
+                @(debtor.Invoices.Any() ? debtor.Invoices.Where(invoice => invoice.Status == Models.InvoiceStatus.Open).Count().ToString() : "0")
+            </td>
+            <td>
+                @(debtor.Invoices.Any() ? debtor.Invoices.Where(invoice => invoice.Status == Models.InvoiceStatus.Paid).Count().ToString() : "0")
+            </td>
+            <td>
+                @(debtor.Invoices.Any() ? debtor.Invoices.Where(invoice => invoice.Status == Models.InvoiceStatus.Overdue).Count().ToString() : "0")
+            </td>
+            <td>
+                <a asp-route-id="@(debtor.DebtorID)" asp-page="./ViewDebtor" class="btn btn-primary btn-sm">View</a>
+            </td>
+        </tr>
+            }
+</tbody>
+    </table>
+

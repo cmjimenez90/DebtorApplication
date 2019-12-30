@@ -1,0 +1,9 @@
+﻿@page "{id:int}"
+@model DebtorWebApp.Pages.Debtors.EditDebtorModel
+@{
+    ViewData["Title"] = "EditDebtor";
+}
+
+<h1>Edit</h1>
+
+@await  Html.PartialAsync("_DebtorPartial",Model.Debtor)

@@ -1,0 +1,64 @@
+﻿@page "{id:int}"
+@using DebtorWebApp.Models
+@model DebtorWebApp.Pages.Debtors.ViewDebtorModel
+@{
+    ViewData["Title"] = "View Debtor";
+}
+@functions{
+    public string GetStatusBackgroundColor(InvoiceStatus status)
+    {
+        if (status == InvoiceStatus.Overdue)
+            return "badge-danger";
+        if (status == InvoiceStatus.Paid)
+            return "badge-success";
+        return "badge-light";
+    }
+}
+
+<h1>Debtor</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    <h2>@(Model.Debtor.LastName + ", " + Model.Debtor.FirstName)</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group-flush list-group">
+                        <li class="list-group-item">@Html.DisplayNameFor(model => model.Debtor.Email): @Html.DisplayFor(model => model.Debtor.Email)</li>
+                        <li class="list-group-item">@Html.DisplayNameFor(model => model.Debtor.IBAN): @Html.DisplayFor(model => model.Debtor.IBAN)</li>
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-page="EditDebtor" asp-route-id="@(Model.Debtor.DebtorID)" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <h2>Invoices</h2>
+            <table class="table table-sm">
+                <thead>                  
+                    <tr>
+                        <th scope="col">Amount Due</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"><a asp-page="Invoices/CreateInvoice" asp-route-id="@(Model.Debtor.DebtorID)" class="btn btn-primary">New</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var invoice in Model.Debtor.Invoices)
+                    { 
+                        <tr>
+                            <td >@invoice.Amount.ToString("C")</td>
+                            <td >@invoice.DueDate.ToShortDateString()</td>
+                            <td ><span class="badge @GetStatusBackgroundColor(invoice.Status)">@invoice.Status</span></td>
+                            <td ><a class="btn btn-primary" asp-page="Invoices/ViewInvoice" asp-route-id="@(invoice.InvoiceId)">View</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>      
+        </div>
+    </div>
+</div>
+

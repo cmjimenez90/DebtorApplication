@@ -4,14 +4,16 @@ using DebtorWebApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DebtorWebApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190915074807_CreateBaseModels")]
+    partial class CreateBaseModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,6 @@ namespace DebtorWebApp.Data.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired();
-
-                    b.Property<string>("OwnerID");
 
                     b.HasKey("DebtorID");
 

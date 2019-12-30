@@ -1,0 +1,11 @@
+﻿@page
+@model DebtorWebApp.Pages.Debtors.NewDebtorModel
+@{
+    ViewData["Title"] = "Create Debtor";
+}
+
+<h1>Create New Debtor</h1>
+
+
+@await Html.PartialAsync("_DebtorPartial", Model.Debtor)
+
