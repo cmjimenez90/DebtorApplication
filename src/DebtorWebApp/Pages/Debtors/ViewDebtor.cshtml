@@ -37,21 +37,27 @@
         </div>
         <div class="col-sm">
             <h2>Invoices</h2>
-            <div class="row mb-1">
-                <div class="col-sm">Amount Due</div>
-                <div class="col-sm">Due Date</div>
-                <div class="col-sm">Status</div>
-                <div class="col-sm"><a asp-page="Invoices/CreateInvoice" asp-route-id="@(Model.Debtor.DebtorID)" class="btn btn-primary">New</a></div>
-            </div>
-            @foreach (var invoice in Model.Debtor.Invoices)
-            {
-                <div class="row mb-1">
-                    <div class="col-sm">@invoice.Amount</div>
-                    <div class="col-sm">@invoice.DueDate.ToShortDateString()</div>
-                    <div class="col-sm"><span class="badge @GetStatusBackgroundColor(invoice.Status)">@invoice.Status</span></div>
-                    <div class="col-sm"><a class="btn btn-primary" asp-page="Invoices/ViewInvoice" asp-route-id="@(invoice.InvoiceId)">View</a></div>
-                </div>
-            }
+            <table class="table table-sm">
+                <thead>                  
+                    <tr>
+                        <th scope="col">Amount Due</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"><a asp-page="Invoices/CreateInvoice" asp-route-id="@(Model.Debtor.DebtorID)" class="btn btn-primary">New</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var invoice in Model.Debtor.Invoices)
+                    { 
+                        <tr>
+                            <td >@invoice.Amount.ToString("C")</td>
+                            <td >@invoice.DueDate.ToShortDateString()</td>
+                            <td ><span class="badge @GetStatusBackgroundColor(invoice.Status)">@invoice.Status</span></td>
+                            <td ><a class="btn btn-primary" asp-page="Invoices/ViewInvoice" asp-route-id="@(invoice.InvoiceId)">View</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>      
         </div>
     </div>
 </div>
