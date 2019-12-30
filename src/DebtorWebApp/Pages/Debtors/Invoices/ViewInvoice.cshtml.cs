@@ -16,7 +16,7 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
         {
         }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGet(int id)
         {
            Invoice = Context.Invocies.FirstOrDefault(invoice => invoice.InvoiceId == id);
            if(Invoice == null)
@@ -24,6 +24,9 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
                 return NotFound();
             }
             Debtor owner = Context.Debtors.FirstOrDefault(debtor => debtor.DebtorID == Invoice.DebtorID);
+            AuthorizationResult result = await AuthorizationService.AuthorizeAsync(User, owner, "DebtorEditPolicy");
+            if (!result.Succeeded) { return new ForbidResult(); }
+
             InvoiceOwnerName = (owner.LastName + ", " + owner.FirstName);
             return Page();
         }
@@ -35,6 +38,9 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
             {
                 return NotFound();
             }
+            Debtor owner = Context.Debtors.FirstOrDefault(debtor => debtor.DebtorID == Invoice.DebtorID);
+            AuthorizationResult result = await AuthorizationService.AuthorizeAsync(User, owner, "DebtorEditPolicy");
+            if (!result.Succeeded) { return new ForbidResult(); }
             Invoice.Status = InvoiceStatus.Paid;
             Context.Update(Invoice);
             await Context.SaveChangesAsync();
@@ -48,6 +54,11 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
             {
                 return NotFound();
             }
+
+            Debtor owner = Context.Debtors.FirstOrDefault(debtor => debtor.DebtorID == Invoice.DebtorID);
+            AuthorizationResult result = await AuthorizationService.AuthorizeAsync(User, owner, "DebtorEditPolicy");
+            if (!result.Succeeded) { return new ForbidResult(); }
+
             Invoice.Status = InvoiceStatus.Overdue;
             Context.Update(Invoice);
             await Context.SaveChangesAsync();

@@ -17,8 +17,12 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
         {
         }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGet(int id)
         {
+            Debtor existingDebtor = await Context.Debtors.FirstOrDefaultAsync(debtor => debtor.DebtorID == id);
+            if (null == existingDebtor) return NotFound();
+            AuthorizationResult result = await AuthorizationService.AuthorizeAsync(User, existingDebtor, "DebtorEditPolicy");
+            if (!result.Succeeded) { return new ForbidResult(); }
             return Page();
         }
 
@@ -29,7 +33,9 @@ namespace DebtorWebApp.Pages.Debtors.Invoices
             }
 
             Debtor existingDebtor = await Context.Debtors.FirstOrDefaultAsync(debtor => debtor.DebtorID == id);
-            if (null == existingDebtor) return NotFound();
+            if (null == existingDebtor) return NotFound();      
+            AuthorizationResult result = await AuthorizationService.AuthorizeAsync(User, existingDebtor, "DebtorEditPolicy");
+            if (!result.Succeeded) { return new ForbidResult(); }
 
             invoice.DebtorID = existingDebtor.DebtorID;
             invoice.Status = InvoiceStatus.Open;
